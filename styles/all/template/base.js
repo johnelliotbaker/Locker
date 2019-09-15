@@ -28,7 +28,6 @@ $(function () {
             $target = $(event.target).closest('span');
             var hash = $target[0].dataset.hash;
             var url = '/app.php/locker/unlock/?h=' + hash;
-            console.log(url);
             $.get(url).done((resp)=>{
                 $target.unbind();
                 $target.removeClass('noselect');
@@ -39,7 +38,7 @@ $(function () {
                 }
                 else
                 {
-                    $target.html('Invalid Link');
+                    $target.html('Invalid Data');
                 }
             })
         })

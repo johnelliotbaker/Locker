@@ -24,22 +24,7 @@ class ext extends \phpbb\extension\base
 	 */
 	public function enable_step($old_state)
 	{
-		switch ($old_state)
-		{
-			case '': // Empty means nothing has run yet
-
-				$phpbb_notifications = $this->container->get('notification_manager');
-				$phpbb_notifications->enable_notifications('jeb.locker.notification.type.locker');
-				return 'notification';
-
-			break;
-
-			default:
-
-				return parent::enable_step($old_state);
-
-			break;
-		}
+        return parent::enable_step($old_state);
 	}
 
 	/**
@@ -51,22 +36,7 @@ class ext extends \phpbb\extension\base
 	 */
 	public function disable_step($old_state)
 	{
-		switch ($old_state)
-		{
-			case '': // Empty means nothing has run yet
-
-				$phpbb_notifications = $this->container->get('notification_manager');
-				$phpbb_notifications->disable_notifications('jeb.locker.notification.type.locker');
-				return 'notification';
-
-			break;
-
-			default:
-
-				return parent::disable_step($old_state);
-
-			break;
-		}
+        return parent::disable_step($old_state);
 	}
 
 	/**
@@ -78,21 +48,6 @@ class ext extends \phpbb\extension\base
 	 */
 	public function purge_step($old_state)
 	{
-		switch ($old_state)
-		{
-			case '': // Empty means nothing has run yet
-
-				$phpbb_notifications = $this->container->get('notification_manager');
-				$phpbb_notifications->purge_notifications('jeb.locker.notification.type.locker');
-				return 'notification';
-
-			break;
-
-			default:
-
-				return parent::purge_step($old_state);
-
-			break;
-		}
+        return parent::purge_step($old_state);
 	}
 }
