@@ -1,0 +1,6 @@
+jeb_locker_controller:
+    # path: /locker/
+    path: /locker/{mode}/
+    defaults: { _controller: jeb.locker.controller:handle }
+    requirements:
+        mode: \S+

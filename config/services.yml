@@ -1,0 +1,39 @@
+imports:
+    - { resource: 'groups.yml' }
+services:
+    jeb.locker.controller:
+        class: jeb\locker\controller\main
+        arguments:
+            - '@user'
+            - '@dbal.conn'
+            - '@auth'
+            - '@request'
+            - '@config'
+            - '@template'
+            - '@controller.helper'
+            - '%core.table_prefix%locker'
+            - '%core.table_prefix%locker_usage'
+            - '@jeb.locker.auth.user_auth'
+
+    jeb.locker.listener:
+        class: jeb\locker\event\main_listener
+        arguments:
+            - '@controller.helper'
+            - '@template'
+            - '@dbal.conn'
+            - '@notification_manager'
+            - '@user'
+            - '@auth'
+            - '@config'
+            - '%core.php_ext%'
+            - '@jeb.locker.auth.user_auth'
+        tags:
+            - { name: event.listener }
+
+    jeb.locker.auth.user_auth:
+        class: jeb\locker\core\auth\user_auth
+        arguments:
+            - '@dbal.conn'
+            - '@user'
+            - '@auth'
+            - '@service_container'

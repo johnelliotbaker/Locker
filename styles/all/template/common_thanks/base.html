@@ -1,0 +1,43 @@
+<!-- INCLUDE overall_header.html -->
+
+<div class="twbs">
+
+  <form method="get">
+    <div class="form-row align-items-center">
+      <div class="col w-100 my-1">
+        <label class="sr-only" for="inlineFormInputGroupUsername">Hashes</label>
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <div class="input-group-text">Hashes</div>
+          </div>
+          <input name="common_thanks_hashes" type="text" class="form-control" id="inlineFormInputGroupUsername" placeholder="Hashes">
+        </div>
+      </div>
+      <div class="col-auto my-1">
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </div>
+    </div>
+  </form>
+
+  <table class="table table-sm table-dark table-striped">
+    <thead>
+      <tr>
+        <th scope="col">Username</th>
+        <th scope="col">Count</th>
+        <th scope="col">Access</th>
+        <th scope="col">Hash</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- BEGIN DATA -->
+      <tr>
+        <td><a href="/memberlist.php?mode=viewprofile&u={DATA.user_id}" target="_blank">{DATA.username}</a></td>
+        <td>{DATA.count}</td>
+        <td>{DATA.n_access}</td>
+        <td>{DATA.hash}</td>
+      </tr>
+      <!-- END DATA -->
+    </tbody>
+  </table>
+  <!-- INCLUDE overall_footer.html -->
+</div>

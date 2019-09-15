@@ -1,0 +1,32 @@
+{
+    "name": "jeb/locker",
+    "type": "phpbb-extension",
+    "description": "",
+    "homepage": "",
+    "version": "0.0.1",
+    "time": "2019-09-14",
+    "license": "GPL-2.0-only",
+    "authors": [
+        {
+            "name": "jeb",
+            "email": "",
+            "homepage": "",
+            "role": "",
+            "Skeleton": "paul999/mentions"
+        }
+    ],
+    "require": {
+        "php": "~5.4|~7.0",
+        "phpbb/phpbb": ">=3.2.0RC1,<3.3.0@dev",
+        "composer/installers": "~1.0.0"
+    },
+    "extra": {
+        "display-name": "Lockers",
+        "soft-require": {
+            "phpbb/phpbb": ">=3.2.0RC1,<3.3.0@dev"
+        }
+    },
+    "require-dev": {
+        "phing/phing": "2.4.*"
+    }
+}

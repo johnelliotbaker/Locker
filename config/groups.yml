@@ -1,0 +1,132 @@
+parameters:
+    jeb.locker.groups:
+        dev:
+            'set':
+                'Red Team':
+                    - 4
+                    - 5
+                    - 13
+                    - 18
+                'Blue Team':
+                    - 4
+                    - 5
+                    - 13
+                    - 19
+            'GUESTS':
+                id: 1
+            'REGISTERED':
+                id: 2
+            'REGISTERED_COPPA':
+                id: 3
+            'GLOBAL_MODERATORS': &moderators
+                id: 4
+                color: '#E91B56'
+            'ADMINISTRATORS': &administrators
+                id: 5
+                color: '#FF0000'
+            'BOTS':
+                id: 6
+            'NEWLY_REGISTERED':
+                id: 7
+            'Trusted Uploader': &trusted_uploaders
+                id: 8
+                color: '#008000'
+            'VIPs': &vips
+                id: 9
+                color: '#00BFFF'
+            'Elite Users': &elite_users
+                id: 10
+                color: '#FF6900'
+            'Developers': &developers
+                id: 13
+                color: '#0000BF'
+            'Best Testers Alpha Team':
+                id: 14
+            'Padding':
+                id: 15
+            'Junior Uploaders': &junior_uploaders
+                id: 16
+                color: '#40BF00'
+            'Donors': &donors
+                id: 17
+                color: '#B92DFF'
+            'Red Team': &red_team
+                id: 18
+                color: '#FF4000'
+            'Blue Team': &blue_team
+                id: 19
+                color: '#0040FF'
+        dev_staff_notification_alias:
+            'moderators': *moderators
+            'administrators': *administrators
+            'trusted_uploaders': *trusted_uploaders
+            'vips': *vips
+            'elite_users': *elite_users
+            'developers': *developers
+            'junior_uploaders': *junior_uploaders
+            'donors': *donors
+            'red_team': *red_team
+            'blue_team': *blue_team
+        production:
+            'set':
+                'Red Team':
+                    - 4
+                    - 5
+                    - 13
+                    - 18
+                'Blue Team':
+                    - 4
+                    - 5
+                    - 13
+                    - 19
+            'GUESTS':
+                id: 1
+            'REGISTERED':
+                id: 2
+            'REGISTERED_COPPA':
+                id: 3
+            'GLOBAL_MODERATORS': &moderators
+                id: 4
+                color: '#E91B56'
+            'ADMINISTRATORS': &administrators
+                id: 5
+                color: '#FF0000'
+            'BOTS':
+                id: 6
+            'NEWLY_REGISTERED':
+                id: 7
+            'Uploaders': &trusted_uploaders
+                id: 9
+                color: '#008000'
+            'VIPs': &vips
+                id: 11
+                color: '#00BFFF'
+            'Elite Users': &elite_users
+                id: 12
+                color: '#FF6900'
+            'Developers': &developers
+                id: 13
+                color: '#0000BF'
+            'Junior Uploaders': &junior_uploaders
+                id: 16
+                color: '#40BF00'
+            'Donors': &donors
+                id: 17
+                color: '#B92DFF'
+            'Red Team': &red_team
+                id: 18
+                color: '#FF4000'
+            'Blue Team': &blue_team
+                id: 19
+                color: '#0040FF'
+        production_staff_notification_alias:
+            'moderators': *moderators
+            'administrators': *administrators
+            'trusted_uploaders': *trusted_uploaders
+            'vips': *vips
+            'elite_users': *elite_users
+            'developers': *developers
+            'junior_uploaders': *junior_uploaders
+            'donors': *donors
+            'red_team': *red_team
+            'blue_team': *blue_team
