@@ -88,7 +88,8 @@ class main
         $b_success = $this->log_usage($hash);
         if ($b_success)
         {
-            return new JsonResponse(['status' => 1, 'text' => $row['text']]);
+            $text = htmlspecialchars($row['text']);
+            return new JsonResponse(['status' => 1, 'text' => $text]);
         }
         return new JsonResponse(['status' => 0]);
     }/*}}}*/

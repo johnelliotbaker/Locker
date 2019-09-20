@@ -20,8 +20,8 @@ Locker.generate_clipboard = function(hash, text)
     return tpl;
 }
 
-$(function () {
-    var $lock = $('span[id*=locker_]');
+Locker.register_locks = function($lock)
+{
     $lock.each((id)=>{
         $elem = $($lock[id]);
         $elem.click((event)=>{
@@ -43,4 +43,30 @@ $(function () {
             })
         })
     });
+}
+
+{% if B_LOCKER_OWNER %}
+Locker.register_tags = function($tags)
+{
+    $message = $('textarea[name=message]');
+    $tags.each((id)=>{
+        $elem = $($tags[id]);
+        $elem.removeClass('hide');
+        $elem.click((event)=>{
+            $target = $(event.target).closest('span');
+            var hash = $target[0].dataset.hash;
+            // Clipboard.copy(hash);
+            $message.val($message.val() + ', ' + hash);
+        })
+    });
+}
+{% endif %}
+
+$(function () {
+    {% if B_LOCKER_OWNER %}
+        var $lock_tag = $('span[id*=lock_tag_]');
+        Locker.register_tags($lock_tag);
+    {% endif %}
+    var $lock = $('span[id*=locker_]');
+    Locker.register_locks($lock);
 });

@@ -107,14 +107,32 @@ class main_listener implements EventSubscriberInterface
 	static public function getSubscribedEvents()/*{{{*/
 	{
         return [
-            'core.submit_post_end'                 => 'do_create_locker',
-            'core.user_setup'                      => 'setup_user',
-            'core.text_formatter_s9e_parse_before' => [
-                ['modify_lock', 0],
-            ],
-            'core.posting_modify_template_vars'    => 'remove_locker_in_quote',
-            // 'core.viewtopic_modify_page_title'     => 'viewtopic',
+            'core.user_setup' => 'setup_user',
+            'core.submit_post_end' => 'do_create_locker',
+            'core.viewtopic_modify_page_title' => 'viewtopic',
+            'core.posting_modify_template_vars' => 'remove_locker_in_quote',
+            'core.posting_modify_submit_post_before' => 'modify_lock',
         ];
+    }/*}}}*/
+
+    public function modify_lock($event)/*{{{*/
+    {
+        if (!$this->sauth->user_belongs_to_groupset($this->user_id, 'Blue Team'))
+        {
+            return false;
+        }
+        $uid = $bitfield = $options = '';
+        $post_data = $event['post_data'];
+        $enable_bbcode = $post_data['enable_bbcode'];
+        $enable_urls = $post_data['enable_urls'];
+        $enable_smilies = $post_data['enable_smilies'];
+        $data = $event['data'];
+        $message = $data['message'];
+        $message = generate_text_for_edit($message, $uid, $flags)['text'];
+        $message = $this->replace_lock_with_lockbox($message);
+        generate_text_for_storage($message, $uid, $bitfield, $options, $enable_bbcode, $enable_urls, $enable_smilies);
+        $data['message'] = $message;
+        $event['data'] = $data;
     }/*}}}*/
 
     public function setup_user($event)/*{{{*/
@@ -151,35 +169,21 @@ class main_listener implements EventSubscriberInterface
 
     private function replace_lock_with_lockbox($strn)/*{{{*/
     {
-        $permission = false;
-        if ($this->sauth->user_belongs_to_groupset($this->user_id, 'Blue Team'))
-        {
-            $permission = true;
-        }
-        $strn = strip_tags($strn);
-        $strn = iconv("UTF-8", "ISO-8859-1//IGNORE", $strn);
         $ptn = '#\[lock\](.*?)\[\/lock\]#uis';
-        $strn = preg_replace_callback($ptn, function($matches) use($permission) {
-            // $content = md5($matches[1]);
-            if ($permission)
+        $strn = preg_replace_callback($ptn, function($matches) {
+            $text = $matches[1];
+            if (strlen($text) >= 250)
             {
-                $content = hash('sha1', $matches[1]);
-                $this->lock_data[] = [
-                    'hash' => $content,
-                    'text' => $matches[1],
-                ];
-                return '[locker]' . $content . '[/locker]';
+                return 'Locker content must be less than 250 characters.' . PHP_EOL . $matches[0];
             }
-            return ' *** You cannot use snahp lockers ***';
+            $hash = hash('sha1', $text);
+            $this->lock_data[] = [
+                'hash' => $hash,
+                'text' => $text,
+            ];
+            return '[locker]' . $hash . '[/locker]';
         }, $strn);
         return $strn;
-    }/*}}}*/
-
-    public function modify_lock($event)/*{{{*/
-    {
-        $text = $event['text'];
-        $text = $this->replace_lock_with_lockbox($text);
-        $event['text'] = $text;
     }/*}}}*/
 
     public function add_permission($event)/*{{{*/
@@ -194,18 +198,11 @@ class main_listener implements EventSubscriberInterface
      */
     public function viewtopic($event)/*{{{*/
     {
-        $s_quick_reply = false;
-        if ($this->user->data['is_registered'] && $this->config['allow_quick_reply'] && ($event['topic_data']['forum_flags'] & FORUM_FLAG_QUICK_REPLY) && $this->auth->acl_get('f_reply', $event['forum_id']))
-        {
-            // Quick reply enabled forum
-            $s_quick_reply = (($event['topic_data']['forum_status'] == ITEM_UNLOCKED && $event['topic_data']['topic_status'] == ITEM_UNLOCKED) || $this->auth->acl_get('m_edit', $event['forum_id'])) ? true : false;
-        }
-        if ($s_quick_reply)
-        {
-            $this->template->assign_vars([
-                'UA_AJAX_LOCKER_URL'    => $this->helper->route('jeb_locker_controller'),
-            ]);
-        }
+        $topic_data = $event['topic_data'];
+        $b_owner = $this->sauth->is_op($topic_data) || $this->sauth->is_dev();
+        $this->template->assign_vars([
+            'B_LOCKER_OWNER' => $b_owner,
+        ]);
     }/*}}}*/
 
     /**
