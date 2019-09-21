@@ -121,6 +121,7 @@ class main_listener implements EventSubscriberInterface
         {
             return false;
         }
+        $flags = 0;
         $uid = $bitfield = $options = '';
         $post_data = $event['post_data'];
         $enable_bbcode = $post_data['enable_bbcode'];
